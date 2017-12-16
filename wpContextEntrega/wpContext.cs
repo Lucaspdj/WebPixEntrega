@@ -3,16 +3,15 @@ using wpEntity;
 
 namespace wpContextEntrega
 {
-    public class WebPixContext : DbContext
+    public class WebPixEntregaContext : DbContext
     {
-        public WebPixContext() : base()
-        {
-        }
+       
 
-        public DbSet<Transportadora> Produto { get; set; }
-        public DbSet<CEP> ProdutoSku { get; set; }
-        public DbSet<Propiedade> Propiedades { get; set; }
-        public DbSet<Valor> Preco { get; set; }
+
+        public DbSet<Transportadora> Transportadora { get; set; }
+        public DbSet<CEP> CEP { get; set; }
+        public DbSet<Propiedade> Propiedade { get; set; }
+        public DbSet<Valor> Valor { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

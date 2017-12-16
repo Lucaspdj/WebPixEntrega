@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace wpEntity
+﻿namespace wpEntity
 {
     public class Transportadora : Base
     {
