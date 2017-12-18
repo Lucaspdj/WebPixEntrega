@@ -63,7 +63,20 @@ namespace DomainBusiness
         }
 
 
+        /// <summary>
+        ///Regras:
+        ///Montar Objeto tipo PAC
+        ///Consultar principal para colher configurações padores de CLiente
+        ///Verificar se o metodo esta automatico ou nem 
+        ///Retornar uma "Tuple" com todos os meios dde entregas disponiveis 
+        /// </summary>
+        /// <returns></returns>
+        public static List<Tuple<string, double, string, DateTime>> CalcutatePACFromService()
+        {
 
+            
 
+            throw new NotImplementedException();
+        }
     }
 }
