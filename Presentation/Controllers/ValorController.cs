@@ -29,13 +29,21 @@ namespace WebPixValor.Controllers
 
         [ActionName("DeletarValor")]
         [HttpPost("{token}")]
-        public async Task<JsonResult> DeletarConfiguracao([FromBody]object Valor, string token)
+        public async Task<JsonResult> DeletarValor([FromBody]object Valor, string token)
         {
 
             if (await ValorBO.RemoveAsync(Valor, token))
                 return Json("Valor removido com sucesso");
             else
                 return Json("Encontramos algum problema ao salvar a Configuracao. Entre em contato com o suporte");
+        }
+
+        [ActionName("BuscarValorEntrega")]
+        [HttpPost("{token}")]
+        public async Task<JsonResult> BuscarValorEntrega([FromBody]object Propiedades, string token)
+        {
+            dynamic proper = Propiedades;
+            return await ValorBO.CalcutatePACFromServiceAsync(proper.IDProduto, proper.CEP, proper.idCliente, proper.idUsuario, token);
         }
     }
 }

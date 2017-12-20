@@ -1,6 +1,6 @@
 ﻿using System;
 using Correios;
-using wpService.Model;
+using wpService.Models;
 using System.Collections.Generic;
 
 namespace wpService

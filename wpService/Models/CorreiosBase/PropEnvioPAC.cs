@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace wpService.Model
+namespace wpService.Models
 {
     public class PropEnvioPAC
     {

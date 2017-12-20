@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using wpService;
 using wpRepository;
+using wpService.Models;
 
 namespace DomainBusiness
 {
@@ -61,8 +62,7 @@ namespace DomainBusiness
             else
                 return false;
         }
-
-
+        
         /// <summary>
         ///Regras:
         ///Montar Objeto tipo PAC
@@ -71,12 +71,44 @@ namespace DomainBusiness
         ///Retornar uma "Tuple" com todos os meios dde entregas disponiveis 
         /// </summary>
         /// <returns></returns>
-        public static List<Tuple<string, double, string, DateTime>> CalcutatePACFromService()
+        public static async Task<List<Tuple<string, double, string, DateTime>>> CalcutatePACFromServiceAsync(int IDProduto, string CEP, int idCliente, int idUsuario, string token)
         {
-
             
+            if (await SeguracaServ.validaTokenAsync(token))
+            {
+                //Carrega informações de Configuração de envio
+                var config = SeguracaServ.GetConfig(idCliente, idUsuario);
+                var produto = SeguracaServ.GetProduto(idCliente, idUsuario, IDProduto);
 
-            throw new NotImplementedException();
+                //Carrega MODEL
+                PropEnvioPAC propEnvio = new PropEnvioPAC
+                {
+                    nCdEmpresa = config.Where(x => x.Chave == "nCdEmpresaPAC").FirstOrDefault().Valor,
+                    nCdFormato = Convert.ToInt32(config.Where(x => x.Chave == "Formato").FirstOrDefault().Valor),
+                    nCdServico = "PAC",
+                    nVlAltura = produto.Altura,
+                    nVlComprimento = produto.Comprimento,
+                    nVlDiametro = 0,
+                    nVlLargura = produto.Largura,
+                    nVlPeso = produto.Peso.ToString(),
+                    nVlValorDeclarado = 0,
+                    sCdAvisoRecebimento = "false",
+                    sCdMaoPropria = "false",
+                    sCepDestino = config.Where(x => x.Chave == "CEPDestino").FirstOrDefault().Valor,
+                    sCepOrigem = CEP,
+                    sDsSenha = config.Where(x => x.Chave == "Senha").FirstOrDefault().Valor
+                };
+
+                CorreiosServ correios = new CorreiosServ();
+
+
+                List<Tuple<string, double, string, DateTime>> envio = correios.GetValorFromPAC(propEnvio);
+
+                return envio;
+            }
+            else
+                return new List<Tuple<string, double, string, DateTime>>();
+
         }
     }
 }
