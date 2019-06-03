@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using System.Threading.Tasks;
-using WebPixPrincipalAPI;
 
 namespace Presentation
 {
@@ -10,23 +7,12 @@ namespace Presentation
     {
         public static void Main(string[] args)
         {
-
-            MainAsync().Wait();
-
+            BuildWebHost(args).Run();
         }
-        static async Task MainAsync()
-        {
-            var url = await AuxNotStatic.GetInfoMotorAux("WpEntrega", 1);
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseUrls(url.Url)
-                .UseIISIntegration()
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
-
-            host.Run();
-        }
     }
 }
